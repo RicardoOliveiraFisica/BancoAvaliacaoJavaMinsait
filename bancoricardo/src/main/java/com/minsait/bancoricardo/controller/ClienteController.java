@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.minsait.bancoricardo.entity.Cliente;
 import com.minsait.bancoricardo.exception.ClienteNaoEncontradoException;
+import com.minsait.bancoricardo.exception.CpfJaCadastradoException;
 import com.minsait.bancoricardo.service.ClienteService;
 
 @CrossOrigin("*")
@@ -32,7 +33,7 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente cadastrarCliente(@Valid @RequestBody Cliente cliente) {
+	public Cliente cadastrarCliente(@Valid @RequestBody Cliente cliente) throws CpfJaCadastradoException {
 		return this.clienteService.cadastrarCliente(cliente);
 	}	
 	
@@ -42,7 +43,7 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/{cpf}")
-	public Cliente retornarCliente(@PathVariable Long cpf) throws ClienteNaoEncontradoException  {
+	public Cliente retornarCliente(@PathVariable String cpf) throws ClienteNaoEncontradoException  {
 		return this.clienteService.retornarCliente(cpf);
 	}
 	
