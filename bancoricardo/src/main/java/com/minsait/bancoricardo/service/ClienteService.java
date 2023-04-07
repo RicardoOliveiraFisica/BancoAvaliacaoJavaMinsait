@@ -3,6 +3,8 @@ package com.minsait.bancoricardo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +52,16 @@ public class ClienteService {
 			return clienteDTO;
 		}
 		throw new ClienteNaoEncontradoException(cpf);
-	}
-	
+	}	
 
+	@Transactional
+	public MensagemDeSucesso deletarCliente(String cpf) throws ClienteNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpf)) {
+			this.clienteRepository.deleteByCpf(cpf);
+			MensagemDeSucesso mensagem = new MensagemDeSucesso("Deletado com sucesso");
+			return mensagem;
+		}
+		
+		throw new ClienteNaoEncontradoException(cpf);
+	}
 }
