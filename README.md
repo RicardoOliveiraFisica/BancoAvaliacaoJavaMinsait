@@ -1,2 +1,2 @@
 # BancoAvaliacaoJavaMinsait
-Projeto de Empréstimo Bancário
+Projeto de Empréstimos Bancários
