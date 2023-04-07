@@ -2,10 +2,13 @@ package com.minsait.bancoricardo.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Cliente {
@@ -16,13 +19,28 @@ public class Cliente {
 	private String nome;
 	
 	private String cpf;
-	private Long telefone;
-	private String endereco;
+	private String telefone;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "endereco_id")
+	private Endereco endereco;
 	private BigDecimal rendimentoMensal;
 	
 	public Cliente() {}
 	
 	
+	
+	public Cliente(String nome, String cpf, String telefone, Endereco endereco, BigDecimal rendimentoMensal) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.endereco = endereco;
+		this.rendimentoMensal = rendimentoMensal;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -43,16 +61,16 @@ public class Cliente {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public Long getTelefone() {
+	public String getTelefone() {
 		return telefone;
 	}
-	public void setTelefone(Long telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(String endereco) {
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 	public BigDecimal getRendimentoMensal() {
