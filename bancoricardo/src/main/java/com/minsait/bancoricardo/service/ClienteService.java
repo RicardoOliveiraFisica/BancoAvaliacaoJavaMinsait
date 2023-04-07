@@ -29,6 +29,7 @@ public class ClienteService {
 			ClienteDTO clienteDTOCadastrado = ClienteDTO.retornaCliente(clienteCadastrado);
 			return clienteDTOCadastrado;
 		}
+		
 		throw new CpfJaCadastradoException(clienteDTO.getCpf());
 	}
 	
