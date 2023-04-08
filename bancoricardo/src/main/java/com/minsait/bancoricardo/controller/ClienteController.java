@@ -56,7 +56,7 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{cpf}")
-	public ClienteDTO atualizarCliente( @PathVariable String cpf, @Valid @RequestBody ClienteDTO clienteDTO) throws CpfJaCadastradoException, ClienteNaoEncontradoException {
+	public ClienteDTO atualizarCliente( @PathVariable String cpf, @Valid @RequestBody ClienteDTO clienteDTO) throws ClienteNaoEncontradoException {
 		return this.clienteService.atualizarCliente(cpf, clienteDTO);
 	}
 

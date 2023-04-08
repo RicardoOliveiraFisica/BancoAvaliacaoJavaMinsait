@@ -64,43 +64,64 @@ public class ClienteService {
 		throw new ClienteNaoEncontradoException(cpf);
 	}
 	
-	public ClienteDTO atualizarCliente(String cpf, ClienteDTO clienteDTO) throws CpfJaCadastradoException, ClienteNaoEncontradoException {
-		if (this.clienteRepository.existsByCpf(cpf)) {
-			String cpfAtualizado = clienteDTO.getCpf();
-			Cliente cliente = this.clienteRepository.findByCpf(cpf).get();
-			if (cpfAtualizado == null || cpfAtualizado.equals("")) {
-				cpfAtualizado = cliente.getCpf();
-				clienteDTO.setCpf(cpfAtualizado);
-			}			
-			if (cpfAtualizado.equals(cpf) || !this.clienteRepository.existsByCpf(cpfAtualizado)) {						
-				if (clienteDTO.getNome() == null) {
-					clienteDTO.setNome(cliente.getNome());
-				}
-				if (clienteDTO.getTelefone() == null) {
-					clienteDTO.setTelefone(cliente.getTelefone());
-				}
-				if (clienteDTO.getRua() == null) {
-					clienteDTO.setRua(cliente.getEndereco().getRua());
-				}
-				if (clienteDTO.getNumero() == null) {
-					clienteDTO.setNumero(cliente.getEndereco().getNumero());
-				}
-
-				if (clienteDTO.getCep() == null) {
-					clienteDTO.setCep(cliente.getEndereco().getCep());
-				}
-				if (clienteDTO.getRendimentoMensal() == null) {
-					clienteDTO.setRendimentoMensal(cliente.getRendimentoMensal());
-				}
-				Cliente clienteParaAtualizar = ClienteDTO.retornaCliente(clienteDTO);
-				clienteParaAtualizar.setId(cliente.getId());
-				clienteParaAtualizar.getEndereco().setId(cliente.getEndereco().getId());
-				Cliente clienteAtualizado = this.clienteRepository.save(clienteParaAtualizar);
-				ClienteDTO clienteDTOAtualizado = ClienteDTO.retornaCliente(clienteAtualizado);
-				return clienteDTOAtualizado;
+	public ClienteDTO atualizarCliente(String cpfCadastrado, ClienteDTO clienteDTO) throws ClienteNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpfCadastrado)) {
+			Cliente clienteCadastrado = this.clienteRepository.findByCpf(cpfCadastrado).get();
+			ClienteDTO clienteDTOCadastrado = ClienteDTO.retornaCliente(clienteCadastrado);
+//			if (clienteDTO.getNome() == null) {
+//				clienteDTO.setNome(clienteCadastrado.getNome());
+//			}
+//			if (clienteDTO.getTelefone() == null) {
+//				clienteDTO.setTelefone(clienteCadastrado.getTelefone());
+//			}
+//			if (clienteDTO.getRua() == null) {
+//				clienteDTO.setRua(clienteCadastrado.getEndereco().getRua());
+//			}
+//			if (clienteDTO.getNumero() == null) {
+//				clienteDTO.setNumero(clienteCadastrado.getEndereco().getNumero());
+//			}
+//
+//			if (clienteDTO.getCep() == null) {
+//				clienteDTO.setCep(clienteCadastrado.getEndereco().getCep());
+//			}
+//			if (clienteDTO.getRendimentoMensal() == null) {
+//				clienteDTO.setRendimentoMensal(clienteCadastrado.getRendimentoMensal());
+//			}
+//			if (clienteDTO.getCpf() == null || clienteDTO.getCpf().equals("")) {
+//				clienteDTO.setCpf(cpfCadastrado);
+//			}
+//			
+			if (clienteDTO.getNome() == null) {
+				clienteDTO.setNome(clienteDTOCadastrado.getNome());
 			}
-			throw new CpfJaCadastradoException(cpfAtualizado);
+			if (clienteDTO.getTelefone() == null) {
+				clienteDTO.setTelefone(clienteDTOCadastrado.getTelefone());
+			}
+			if (clienteDTO.getRua() == null) {
+				clienteDTO.setRua(clienteDTOCadastrado.getRua());
+			}
+			if (clienteDTO.getNumero() == null) {
+				clienteDTO.setNumero(clienteDTOCadastrado.getNumero());
+			}
+
+			if (clienteDTO.getCep() == null) {
+				clienteDTO.setCep(clienteDTOCadastrado.getCep());
+			}
+			if (clienteDTO.getRendimentoMensal() == null) {
+				clienteDTO.setRendimentoMensal(clienteDTOCadastrado.getRendimentoMensal());
+			}
+			if (clienteDTO.getCpf() == null || clienteDTO.getCpf().equals("") || !clienteDTO.getCpf().equals(cpfCadastrado)) {
+				clienteDTO.setCpf(cpfCadastrado);
+			}
+				
+			Cliente clienteParaAtualizar = ClienteDTO.retornaCliente(clienteDTO);
+			Cliente clienteAtualizado = this.clienteRepository.save(clienteParaAtualizar);
+			ClienteDTO clienteDTOAtualizado = ClienteDTO.retornaCliente(clienteAtualizado);
+			
+			return clienteDTOAtualizado;
+			
+			
 		}
-		throw new ClienteNaoEncontradoException(cpf);
+		throw new ClienteNaoEncontradoException(cpfCadastrado);
 	}
 }
