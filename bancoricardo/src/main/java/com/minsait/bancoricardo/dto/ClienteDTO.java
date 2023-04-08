@@ -2,11 +2,20 @@ package com.minsait.bancoricardo.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.minsait.bancoricardo.entity.Cliente;
 import com.minsait.bancoricardo.entity.Endereco;
 
 public class ClienteDTO {
+	@NotBlank(message = "O nome é obrigatório")
+	@Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")	
 	private String nome;
+	@NotBlank(message = "O CPF é obrigatório")
+	@CPF(message = "CPF inválido")
 	private String cpf;
 	private String telefone;	
 	private String rua;

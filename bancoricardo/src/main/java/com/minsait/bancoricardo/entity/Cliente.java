@@ -12,17 +12,15 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Cliente {
+		
+	@Id
+	private String cpf;
 	
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Long id;
 	private String nome;	
 	
 	@OneToMany(mappedBy="cliente")
 	private List<Emprestimo> emprestimos;
-	
-	@Id
-	private String cpf;
+
 	private String telefone;
 	
 	@OneToOne(cascade = CascadeType.ALL)
