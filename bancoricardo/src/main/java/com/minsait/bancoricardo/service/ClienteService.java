@@ -60,8 +60,47 @@ public class ClienteService {
 			this.clienteRepository.deleteByCpf(cpf);
 			MensagemDeSucesso mensagem = new MensagemDeSucesso("Deletado com sucesso");
 			return mensagem;
+		}		
+		throw new ClienteNaoEncontradoException(cpf);
+	}
+	
+	public ClienteDTO atualizarCliente(String cpf, ClienteDTO clienteDTO) throws CpfJaCadastradoException, ClienteNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpf)) {
+			String cpfAtualizado = clienteDTO.getCpf();
+			Cliente cliente = this.clienteRepository.findByCpf(cpf).get();
+			if (cpfAtualizado == null || cpfAtualizado.equals("")) {
+				cpfAtualizado = cliente.getCpf();
+				clienteDTO.setCpf(cpfAtualizado);
+			}			
+			if (cpfAtualizado.equals(cpf) || !this.clienteRepository.existsByCpf(cpfAtualizado)) {						
+				if (clienteDTO.getNome() == null) {
+					clienteDTO.setNome(cliente.getNome());
+				}
+				if (clienteDTO.getTelefone() == null) {
+					clienteDTO.setTelefone(cliente.getTelefone());
+				}
+				if (clienteDTO.getRua() == null) {
+					clienteDTO.setRua(cliente.getEndereco().getRua());
+				}
+				if (clienteDTO.getNumero() == null) {
+					clienteDTO.setNumero(cliente.getEndereco().getNumero());
+				}
+
+				if (clienteDTO.getCep() == null) {
+					clienteDTO.setCep(cliente.getEndereco().getCep());
+				}
+				if (clienteDTO.getRendimentoMensal() == null) {
+					clienteDTO.setRendimentoMensal(cliente.getRendimentoMensal());
+				}
+				Cliente clienteParaAtualizar = ClienteDTO.retornaCliente(clienteDTO);
+				clienteParaAtualizar.setId(cliente.getId());
+				clienteParaAtualizar.getEndereco().setId(cliente.getEndereco().getId());
+				Cliente clienteAtualizado = this.clienteRepository.save(clienteParaAtualizar);
+				ClienteDTO clienteDTOAtualizado = ClienteDTO.retornaCliente(clienteAtualizado);
+				return clienteDTOAtualizado;
+			}
+			throw new CpfJaCadastradoException(cpfAtualizado);
 		}
-		
 		throw new ClienteNaoEncontradoException(cpf);
 	}
 }
