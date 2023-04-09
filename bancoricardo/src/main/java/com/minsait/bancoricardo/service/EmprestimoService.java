@@ -1,6 +1,7 @@
 package com.minsait.bancoricardo.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,35 +46,49 @@ public class EmprestimoService {
 	}
 	
 	
-	public MensagemDeSucesso deletarEmprestimo(String cpf, Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
-		if (this.clienteRepository.existsByCpf(cpf)) {
+	public MensagemDeSucesso deletarEmprestimo(String cpfCliente, Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpfCliente)) {
 			if (this.emprestimoRepository.existsById(id)) {
 				Emprestimo emprestimo = this.emprestimoRepository.findById(id).get();
-				if (cpf.compareTo(emprestimo.getCliente().getCpf()) == 0 ) {
+				if (cpfCliente.compareTo(emprestimo.getCliente().getCpf()) == 0 ) {
 				this.emprestimoRepository.deleteById(id);
 					MensagemDeSucesso mensagem = new MensagemDeSucesso("Emprestimo deletado com sucesso");				
 					return mensagem;
 				}
-				throw new EmprestimoNaoEncontradoException(id, cpf);
+				throw new EmprestimoNaoEncontradoException(id, cpfCliente);
 			}
 			throw new EmprestimoNaoEncontradoException(id);
 		}
-		throw new ClienteNaoEncontradoException(cpf);
+		throw new ClienteNaoEncontradoException(cpfCliente);
 	}
 	
-	public EmprestimoDTO retornarEmprestimo(String cpf, Long id) throws EmprestimoNaoEncontradoException, ClienteNaoEncontradoException {
-		if (this.clienteRepository.existsByCpf(cpf)) {
+	public EmprestimoDTO retornarEmprestimo(String cpfCliente, Long id) throws EmprestimoNaoEncontradoException, ClienteNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpfCliente)) {
 			if (this.emprestimoRepository.existsById(id)) {
 				Emprestimo emprestimo = this.emprestimoRepository.findById(id).get();
-				if (cpf.compareTo(emprestimo.getCliente().getCpf()) == 0 ) {
+				if (cpfCliente.compareTo(emprestimo.getCliente().getCpf()) == 0 ) {
 					EmprestimoDTO emprestimoDTO = EmprestimoDTO.retornaEmprestimo(emprestimo);
 					return emprestimoDTO;
 				}
-				throw new EmprestimoNaoEncontradoException(id, cpf);
+				throw new EmprestimoNaoEncontradoException(id, cpfCliente);
 			}
 			throw new EmprestimoNaoEncontradoException(id);
 		}
-		throw new ClienteNaoEncontradoException(cpf);
+		throw new ClienteNaoEncontradoException(cpfCliente);
+	}
+	
+	public List<EmprestimoDTO> retornarTodosOsEmprestimosDoCpf(String cpfCliente) throws ClienteNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpfCliente)) {
+			Cliente cliente = this.clienteRepository.findByCpf(cpfCliente).get();
+			List<Emprestimo> emprestimos = cliente.getEmprestimos();
+			List<EmprestimoDTO> emprestimosDTO = new ArrayList<>();
+			for (Emprestimo emprestimo : emprestimos) {
+				EmprestimoDTO emprestimoDTO = EmprestimoDTO.retornaEmprestimo(emprestimo);
+				emprestimosDTO.add(emprestimoDTO);
+			}
+			return emprestimosDTO;
+		}
+		throw new ClienteNaoEncontradoException(cpfCliente);
 	}
 	
 	public EmprestimoRepository getEmprestimoRepository() {
