@@ -8,6 +8,7 @@ import com.minsait.bancoricardo.dto.EmprestimoDTO;
 import com.minsait.bancoricardo.entity.Cliente;
 import com.minsait.bancoricardo.entity.Emprestimo;
 import com.minsait.bancoricardo.exception.ClienteNaoEncontradoException;
+import com.minsait.bancoricardo.exception.EmprestimoNaoEncontradoException;
 import com.minsait.bancoricardo.exception.ExcedidoValorLimiteEmprestimosException;
 import com.minsait.bancoricardo.repository.ClienteRepository;
 import com.minsait.bancoricardo.repository.EmprestimoRepository;
@@ -33,7 +34,7 @@ public class EmprestimoService {
 			for (Emprestimo emprestimoAnterior : emprestimos) {
 				valorTotal = valorTotal.add(emprestimoAnterior.getValorInicial());
 			}
-			if (valorTotal.compareTo(cliente.getRendimentoMensal().multiply(new BigDecimal("10.0"))) == -1) {
+			if (valorTotal.compareTo(cliente.getRendimentoMensal().multiply(new BigDecimal("10.0"))) != 1) {
 				this.emprestimoRepository.save(emprestimo);
 				EmprestimoDTO emprestimoDTOcadastrado = EmprestimoDTO.retornaEmprestimo(emprestimo);
 				return emprestimoDTOcadastrado;
@@ -41,8 +42,19 @@ public class EmprestimoService {
 			throw new ExcedidoValorLimiteEmprestimosException(cpfCliente);
 		}
 		throw new ClienteNaoEncontradoException(cpfCliente);
-		//emprestimoDTO.setCpfCliente(cpfCliente);
-	//	return emprestimoDTO;
+	}
+	
+	
+	public MensagemDeSucesso deletarEmprestimo(String cpf, Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpf)) {
+			if (this.emprestimoRepository.existsById(id)) {
+				this.emprestimoRepository.deleteById(id);
+				MensagemDeSucesso mensagem = new MensagemDeSucesso("Emprestimo deletado com sucesso");
+				return mensagem;			
+			}
+			throw new EmprestimoNaoEncontradoException(id);
+		}
+		throw new ClienteNaoEncontradoException(cpf);
 	}
 	
 	public EmprestimoRepository getEmprestimoRepository() {

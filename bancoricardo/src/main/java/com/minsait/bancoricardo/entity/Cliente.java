@@ -19,7 +19,7 @@ public class Cliente {
 	
 	private String nome;	
 	
-	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="cliente", fetch = FetchType.EAGER)
 	private List<Emprestimo> emprestimos;
 
 	private String telefone;

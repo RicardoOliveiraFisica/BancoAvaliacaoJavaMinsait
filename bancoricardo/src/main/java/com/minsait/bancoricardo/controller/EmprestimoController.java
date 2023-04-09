@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.minsait.bancoricardo.dto.EmprestimoDTO;
 import com.minsait.bancoricardo.exception.ClienteNaoEncontradoException;
+import com.minsait.bancoricardo.exception.EmprestimoNaoEncontradoException;
 import com.minsait.bancoricardo.exception.ExcedidoValorLimiteEmprestimosException;
 import com.minsait.bancoricardo.service.EmprestimoService;
+import com.minsait.bancoricardo.service.MensagemDeSucesso;
 
 @CrossOrigin("*")
 @RestController
@@ -33,6 +36,11 @@ public class EmprestimoController {
 	public EmprestimoDTO cadastrarEmprestimo(@PathVariable String cpf, @Valid @RequestBody EmprestimoDTO emprestimoDTO) throws ClienteNaoEncontradoException, ExcedidoValorLimiteEmprestimosException {
 		return this.emprestimoService.cadastrarEmprestimo(cpf, emprestimoDTO);
 	}
+	
+	@DeleteMapping("/{cpf}/emprestimos/{id}")
+	public MensagemDeSucesso deletarEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
+		return this.emprestimoService.deletarEmprestimo(cpf, id);
+	}	
 	
 	public EmprestimoService getEmprestimoService() {
 		return emprestimoService;

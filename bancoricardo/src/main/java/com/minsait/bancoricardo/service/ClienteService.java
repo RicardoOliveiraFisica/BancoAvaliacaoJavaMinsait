@@ -58,7 +58,7 @@ public class ClienteService {
 	public MensagemDeSucesso deletarCliente(String cpf) throws ClienteNaoEncontradoException {
 		if (this.clienteRepository.existsByCpf(cpf)) {
 			this.clienteRepository.deleteByCpf(cpf);
-			MensagemDeSucesso mensagem = new MensagemDeSucesso("Deletado com sucesso");
+			MensagemDeSucesso mensagem = new MensagemDeSucesso("Cadastro deletado com sucesso");
 			return mensagem;
 		}		
 		throw new ClienteNaoEncontradoException(cpf);
