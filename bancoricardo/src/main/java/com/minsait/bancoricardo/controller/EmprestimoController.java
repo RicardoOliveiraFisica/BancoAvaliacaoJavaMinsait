@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,7 +41,12 @@ public class EmprestimoController {
 	@DeleteMapping("/{cpf}/emprestimos/{id}")
 	public MensagemDeSucesso deletarEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
 		return this.emprestimoService.deletarEmprestimo(cpf, id);
-	}	
+	}
+	
+	@PutMapping("/{cpf}/emprestimos/{id}")
+	public EmprestimoDTO retornarEmprestimo(@PathVariable String cpf, @PathVariable Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
+		return this.emprestimoService.retornarEmprestimo(cpf, id);
+	}
 	
 	public EmprestimoService getEmprestimoService() {
 		return emprestimoService;

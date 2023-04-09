@@ -2,8 +2,6 @@ package com.minsait.bancoricardo.entity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +18,7 @@ public class Emprestimo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(name="cliente_cpf")
 	private Cliente cliente;
 	

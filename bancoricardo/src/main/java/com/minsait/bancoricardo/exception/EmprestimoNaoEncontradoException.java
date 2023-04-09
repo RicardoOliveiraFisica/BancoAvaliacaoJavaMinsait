@@ -11,4 +11,7 @@ public class EmprestimoNaoEncontradoException extends Exception {
 		super(String.format("O emprestimo de id %s não foi encontrado", id));		
 	}
 
+	public EmprestimoNaoEncontradoException(Long id, String cpf) {
+		super(String.format("O emprestimo de id %s não pertence ao cpf %s", id, cpf));		
+	}
 }

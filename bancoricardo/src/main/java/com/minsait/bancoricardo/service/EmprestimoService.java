@@ -48,9 +48,28 @@ public class EmprestimoService {
 	public MensagemDeSucesso deletarEmprestimo(String cpf, Long id) throws ClienteNaoEncontradoException, EmprestimoNaoEncontradoException {
 		if (this.clienteRepository.existsByCpf(cpf)) {
 			if (this.emprestimoRepository.existsById(id)) {
+				Emprestimo emprestimo = this.emprestimoRepository.findById(id).get();
+				if (cpf.compareTo(emprestimo.getCliente().getCpf()) == 0 ) {
 				this.emprestimoRepository.deleteById(id);
-				MensagemDeSucesso mensagem = new MensagemDeSucesso("Emprestimo deletado com sucesso");
-				return mensagem;			
+					MensagemDeSucesso mensagem = new MensagemDeSucesso("Emprestimo deletado com sucesso");				
+					return mensagem;
+				}
+				throw new EmprestimoNaoEncontradoException(id, cpf);
+			}
+			throw new EmprestimoNaoEncontradoException(id);
+		}
+		throw new ClienteNaoEncontradoException(cpf);
+	}
+	
+	public EmprestimoDTO retornarEmprestimo(String cpf, Long id) throws EmprestimoNaoEncontradoException, ClienteNaoEncontradoException {
+		if (this.clienteRepository.existsByCpf(cpf)) {
+			if (this.emprestimoRepository.existsById(id)) {
+				Emprestimo emprestimo = this.emprestimoRepository.findById(id).get();
+				if (cpf.compareTo(emprestimo.getCliente().getCpf()) == 0 ) {
+					EmprestimoDTO emprestimoDTO = EmprestimoDTO.retornaEmprestimo(emprestimo);
+					return emprestimoDTO;
+				}
+				throw new EmprestimoNaoEncontradoException(id, cpf);
 			}
 			throw new EmprestimoNaoEncontradoException(id);
 		}
