@@ -2,7 +2,10 @@ package com.minsait.bancoricardo.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
@@ -20,7 +23,11 @@ public class ClienteDTO {
 	private String telefone;	
 	private String rua;
 	private Integer numero;
-	private String cep;	
+	private String cep;
+	
+	@NotNull(message = "O rendimento mensal é obrigatório")
+	@DecimalMin(value = "0.0", inclusive = false)
+	@Digits(integer=10, fraction=2, message = "O rendimento mensal precisa ser em valor monetário")
 	private BigDecimal rendimentoMensal;
 	
 	public ClienteDTO() {}

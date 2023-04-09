@@ -68,29 +68,7 @@ public class ClienteService {
 		if (this.clienteRepository.existsByCpf(cpfCadastrado)) {
 			Cliente clienteCadastrado = this.clienteRepository.findByCpf(cpfCadastrado).get();
 			ClienteDTO clienteDTOCadastrado = ClienteDTO.retornaCliente(clienteCadastrado);
-//			if (clienteDTO.getNome() == null) {
-//				clienteDTO.setNome(clienteCadastrado.getNome());
-//			}
-//			if (clienteDTO.getTelefone() == null) {
-//				clienteDTO.setTelefone(clienteCadastrado.getTelefone());
-//			}
-//			if (clienteDTO.getRua() == null) {
-//				clienteDTO.setRua(clienteCadastrado.getEndereco().getRua());
-//			}
-//			if (clienteDTO.getNumero() == null) {
-//				clienteDTO.setNumero(clienteCadastrado.getEndereco().getNumero());
-//			}
-//
-//			if (clienteDTO.getCep() == null) {
-//				clienteDTO.setCep(clienteCadastrado.getEndereco().getCep());
-//			}
-//			if (clienteDTO.getRendimentoMensal() == null) {
-//				clienteDTO.setRendimentoMensal(clienteCadastrado.getRendimentoMensal());
-//			}
-//			if (clienteDTO.getCpf() == null || clienteDTO.getCpf().equals("")) {
-//				clienteDTO.setCpf(cpfCadastrado);
-//			}
-//			
+
 			if (clienteDTO.getNome() == null) {
 				clienteDTO.setNome(clienteDTOCadastrado.getNome());
 			}

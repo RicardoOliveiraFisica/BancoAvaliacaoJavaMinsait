@@ -1,31 +1,61 @@
 package com.minsait.bancoricardo.dto;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minsait.bancoricardo.entity.Cliente;
 import com.minsait.bancoricardo.entity.Emprestimo;
+import com.minsait.bancoricardo.enums.Relacionamento;
 
 public class EmprestimoDTO {
-	String cpfCliente;		
-	BigDecimal valorInicial;
+	private String cpfCliente;		
+
+	@DecimalMin(value = "0.0", inclusive = false)
+	@Digits(integer=10, fraction=2, message = "O valor precisa ser em valor monetário")
+	private BigDecimal valorInicial;
+	private BigDecimal valorFinal;
+
+	private Relacionamento relacionamento;
+
+	@NotNull(message = "A data inicial é obrigatória")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private Date dataInicial;
+	
+	@NotNull(message = "A data final é obrigatória")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private Date dataFinal;
 	
 	public EmprestimoDTO() {}
 	
-
-	public EmprestimoDTO(String cpfCliente, BigDecimal valorInicial) {
+	public EmprestimoDTO(String cpfCliente, BigDecimal valorInicial, Relacionamento relacionamento, Date dataInicial, Date dataFinal) {
 		super();
 		this.cpfCliente = cpfCliente;
 		this.valorInicial = valorInicial;
+		this.relacionamento = relacionamento;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataFinal;
 	}
+
+
+
 
 	public EmprestimoDTO(Emprestimo emprestimo) {
 		super();
 		this.cpfCliente = emprestimo.getCliente().getCpf();
 		this.valorInicial = emprestimo.getValorInicial();
+		this.valorFinal = emprestimo.getValorFinal();
+		this.relacionamento = emprestimo.getRelacionamento();
+		this.dataInicial = emprestimo.getDataInicial();
+		this.dataFinal = emprestimo.getDataFinal();
 	}
 	
+	
 	public static Emprestimo retornaEmprestimo(EmprestimoDTO emprestimoDTO, Cliente cliente) {
-		Emprestimo emprestimo = new Emprestimo(cliente, emprestimoDTO.getValorInicial());
+		Emprestimo emprestimo = new Emprestimo(cliente, emprestimoDTO.getValorInicial(), emprestimoDTO.getRelacionamento(), emprestimoDTO.getDataInicial(), emprestimoDTO.getDataFinal());
 		return emprestimo;
 	}
 	
@@ -49,5 +79,38 @@ public class EmprestimoDTO {
 	public void setValorInicial(BigDecimal valorInicial) {
 		this.valorInicial = valorInicial;
 	}
+		
+	public BigDecimal getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(BigDecimal valorFinal) {
+		this.valorFinal = valorFinal;
+	}
+
+	public Relacionamento getRelacionamento() {
+		return relacionamento;
+	}
+
+	public void setRelacionamento(Relacionamento relacionamento) {
+		this.relacionamento = relacionamento;
+	}
+
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
+	}
+
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
+	}
+	
 	
 }

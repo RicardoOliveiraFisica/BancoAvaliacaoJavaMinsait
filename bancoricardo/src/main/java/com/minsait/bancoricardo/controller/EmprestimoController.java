@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.minsait.bancoricardo.dto.EmprestimoDTO;
 import com.minsait.bancoricardo.exception.ClienteNaoEncontradoException;
+import com.minsait.bancoricardo.exception.ExcedidoValorLimiteEmprestimosException;
 import com.minsait.bancoricardo.service.EmprestimoService;
 
 @CrossOrigin("*")
@@ -21,8 +22,6 @@ import com.minsait.bancoricardo.service.EmprestimoService;
 @RequestMapping("api/v1/bancoricardo/clientes")
 public class EmprestimoController {
 	private EmprestimoService emprestimoService;
-	
-
 
 	@Autowired
 	public EmprestimoController(EmprestimoService emprestimoService) {
@@ -31,7 +30,7 @@ public class EmprestimoController {
 	
 	@PostMapping("/{cpf}/emprestimos")
 	@ResponseStatus(HttpStatus.CREATED)
-	public EmprestimoDTO cadastrarEmprestimo(@PathVariable String cpf, @Valid @RequestBody EmprestimoDTO emprestimoDTO) throws ClienteNaoEncontradoException {
+	public EmprestimoDTO cadastrarEmprestimo(@PathVariable String cpf, @Valid @RequestBody EmprestimoDTO emprestimoDTO) throws ClienteNaoEncontradoException, ExcedidoValorLimiteEmprestimosException {
 		return this.emprestimoService.cadastrarEmprestimo(cpf, emprestimoDTO);
 	}
 	
