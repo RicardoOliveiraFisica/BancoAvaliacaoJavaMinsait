@@ -72,7 +72,7 @@ public class Emprestimo {
 	}
 	
 	public void setValorFinal() {
-		this.valorFinal = this.relacionamento.calculaValorFinal(this.valorInicial);
+		this.valorFinal = this.relacionamento.calculaValorFinal(this);
 	}
 
 	public Relacionamento getRelacionamento() {
