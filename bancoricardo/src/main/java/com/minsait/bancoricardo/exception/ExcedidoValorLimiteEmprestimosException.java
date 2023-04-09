@@ -3,7 +3,7 @@ package com.minsait.bancoricardo.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.UNAUTHORIZED)
+@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
 public class ExcedidoValorLimiteEmprestimosException extends Exception{
 	static final long serialVersionUID = 1L;
 

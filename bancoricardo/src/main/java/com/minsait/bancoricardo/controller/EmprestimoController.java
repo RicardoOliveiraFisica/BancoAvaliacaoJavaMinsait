@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.minsait.bancoricardo.dto.ClienteDTO;
 import com.minsait.bancoricardo.dto.EmprestimoDTO;
 import com.minsait.bancoricardo.exception.ClienteNaoEncontradoException;
 import com.minsait.bancoricardo.exception.EmprestimoNaoEncontradoException;
