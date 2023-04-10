@@ -35,7 +35,7 @@ public enum Relacionamento {
 		public BigDecimal calculaValorFinal(Emprestimo emprestimo) {
 			BigDecimal fatorMultiplicador;
 			Cliente cliente = emprestimo.getCliente();
-			if (cliente.getEmprestimos().size() == 0) {
+			if (cliente.getEmprestimos().size() <= 1) {
 				fatorMultiplicador = new BigDecimal("1.20");
 			}
 			else {
