@@ -2,9 +2,7 @@ package com.minsait.bancoricardo.dto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minsait.bancoricardo.entity.Cliente;
@@ -14,11 +12,13 @@ import com.minsait.bancoricardo.enums.Relacionamento;
 public class EmprestimoDTO {
 	private String cpfCliente;		
 
-	@DecimalMin(value = "0.0", inclusive = false)
-	@Digits(integer=10, fraction=2, message = "O valor precisa ser em valor monetário")
+	@DecimalMin(value = "0.0", inclusive = false, message="Valor de empréstimo inválido")
 	private BigDecimal valorInicial;
+	
 	private BigDecimal valorFinal;
-
+	
+	@NotNull(message = "O tipo de RELACIONAMENTO é obrigatório")
+	//@EnumNamePattern(regexp = "BRONZE|PRATA|OURO")
 	private Relacionamento relacionamento;
 
 	@NotNull(message = "A data inicial é obrigatória")
@@ -39,9 +39,6 @@ public class EmprestimoDTO {
 		this.dataInicial = dataInicial;
 		this.dataFinal = dataFinal;
 	}
-
-
-
 
 	public EmprestimoDTO(Emprestimo emprestimo) {
 		super();
@@ -111,6 +108,5 @@ public class EmprestimoDTO {
 	public void setDataFinal(Date dataFinal) {
 		this.dataFinal = dataFinal;
 	}
-	
 	
 }

@@ -3,10 +3,8 @@ package com.minsait.bancoricardo.dto;
 import java.math.BigDecimal;
 
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -15,19 +13,28 @@ import com.minsait.bancoricardo.entity.Endereco;
 
 public class ClienteDTO {
 	@NotBlank(message = "O nome é obrigatório")
-	@Length(min = 3, max = 50, message = "O nome deverá ter no máximo {max} caracteres")	
+	@Length(min = 3, max = 100, message = "O nome deverá ter de {min} a {max} caracteres")	
 	private String nome;
+	
 	@NotBlank(message = "O CPF é obrigatório")
 	@CPF(message = "CPF inválido")
 	private String cpf;
-	private String telefone;	
+	
+	@NotBlank(message = "Um número de telefone é obrigatório")
+	@Length(min = 8, max = 11, message = "Número de telefone inválido")	
+	private String telefone;
+	
+	@NotBlank(message = "O nome da rua é obrigatório")
 	private String rua;
+	
+	@NotNull(message = "O número da residência é obrigatório")
 	private Integer numero;
+	
+	@NotBlank(message = "O CEP é obrigatório")
 	private String cep;
 	
 	@NotNull(message = "O rendimento mensal é obrigatório")
-	@DecimalMin(value = "0.0", inclusive = false)
-	@Digits(integer=10, fraction=2, message = "O rendimento mensal precisa ser em valor monetário")
+	@DecimalMin(value = "0.0", inclusive = false, message="Valor de rendimento mensal inválido")
 	private BigDecimal rendimentoMensal;
 	
 	public ClienteDTO() {}

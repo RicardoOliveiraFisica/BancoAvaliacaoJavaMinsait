@@ -18,7 +18,7 @@ public class Cliente {
 	
 	private String nome;	
 	
-	@OneToMany(mappedBy="cliente", cascade = CascadeType.REMOVE)//, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="cliente", cascade = CascadeType.REMOVE)
 	private List<Emprestimo> emprestimos;
 
 	private String telefone;
@@ -41,16 +41,6 @@ public class Cliente {
 		this.rendimentoMensal = rendimentoMensal;
 	}
 
-
-
-//	public Long getId() {
-//		return id;
-//	}
-//	
-//	public void setId(Long id) {
-//		this.id = id;
-//	}	 
-	
 	public String getNome() {
 		return nome;
 	}
@@ -95,7 +85,6 @@ public class Cliente {
 	public List<Emprestimo> getEmprestimos() {
 		return emprestimos;
 	}
-
 
 	public void setEmprestimos(List<Emprestimo> emprestimos) {
 		this.emprestimos = emprestimos;
