@@ -2,6 +2,8 @@ package com.minsait.bancoricardo.dto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,7 +20,6 @@ public class EmprestimoDTO {
 	private BigDecimal valorFinal;
 	
 	@NotNull(message = "O tipo de RELACIONAMENTO é obrigatório")
-	//@EnumNamePattern(regexp = "BRONZE|PRATA|OURO")
 	private Relacionamento relacionamento;
 
 	@NotNull(message = "A data inicial é obrigatória")

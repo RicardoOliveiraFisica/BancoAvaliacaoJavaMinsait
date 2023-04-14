@@ -18,7 +18,7 @@ public class Emprestimo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne//(cascade = CascadeType.ALL)
+	@ManyToOne
     @JoinColumn(name="cliente_cpf")
 	private Cliente cliente;
 	
